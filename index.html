@@ -3,43 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Listings</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Electric Cars Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .car-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .car-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+        }
+        .car-item img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .compare-btn {
+            margin: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .comparison-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Car Listings</h1>
-        <input type="text" id="search-bar" placeholder="Search for cars...">
-    </header>
-    <main>
-        <div class="car-listing" id="car1">
-            <img src="car1.jpg" alt="Car 1">
-            <div class="car-details">
-                <h2>Car Model 1</h2>
-                <p>Price: $20,000</p>
-                <p>Mileage: 20,000 miles</p>
-                <button>View Details</button>
-            </div>
-        </div>
-        <div class="car-listing" id="car2">
-            <img src="car2.jpg" alt="Car 2">
-            <div class="car-details">
-                <h2>Car Model 2</h2>
-                <p>Price: $25,000</p>
-                <p>Mileage: 15,000 miles</p>
-                <button>View Details</button>
-            </div>
-        </div>
-        <div class="car-listing" id="car3">
-            <img src="car3.jpg" alt="Car 3">
-            <div class="car-details">
-                <h2>Car Model 3</h2>
-                <p>Price: $30,000</p>
-                <p>Mileage: 10,000 miles</p>
-                <button>View Details</button>
-            </div>
-        </div>
-    </main>
-    <script src="script.js"></script>
+
+<div class="container">
+    <h1>Electric Cars Comparison</h1>
+    <div class="car-list" id="carList">
+        <!-- Car items will be dynamically inserted here -->
+    </div>
+    <button class="compare-btn" onclick="compareCars()">Compare Cars</button>
+    <div class="comparison-result" id="comparisonResult">
+        <!-- Comparison result will be dynamically inserted here -->
+    </div>
+</div>
+
+<script>
+    const cars = [
+        {
+            name: 'Tesla Model S',
+            cost: '$79,990',
+            length: '196 inches',
+            image: 'https://www.google.com/imgres?q=model%203%20tesla&imgurl=https%3A%2F%2Fdigitalassets-secure.tesla.com%2Fimage%2Fupload%2Fv1693299003%2Fy3owuyq6ex5uqtygbhm8.jpg&imgrefurl=https%3A%2F%2Fwww.tesla.com%2Fda_dk%2Fmodel3&docid=kMgW2zsLINucwM&tbnid=5rl2TnZMPWTa3M&vet=12ahUKEwitsOv86cSGAxX2QFUIHVlKB_sQM3oECBEQAA..i&w=4320&h=2430&hcb=2&ved=2ahUKEwitsOv86cSGAxX2QFUIHVlKB_sQM3oECBEQAA'
+        },
+        {
+            name: 'Nissan Leaf',
+            cost: '$31,670',
+            length: '176.4 inches',
+            image: 'https://cdn.motor1.com/images/mgl/QRVPx/s1/2023-nissan-leaf.jpg'
+        },
+        {
+            name: 'Chevrolet Bolt EV',
+            cost: '$36,620',
+            length: '164 inches',
+            image: 'https://media.ed.edmunds-media.com/chevrolet/bolt-ev/2022/oem/2022_chevrolet_bolt-ev_4dr-hatchback_premier_fq_oem_1_1600.jpg'
+        },
+        {
+            name: 'BMW i3',
+            cost: '$44,450',
+            length: '157.8 inches',
+            image: 'https://cdn.bmwblog.com/wp-content/uploads/2020/06/BMW-i3-120Ah-Edition-RoadStyle-14.jpg'
+        }
+    ];
+
+    function displayCars() {
+        const carList = document.getElementById('carList');
+        cars.forEach(car => {
+            const carItem = document.createElement('div');
+            carItem.className = 'car-item';
+            carItem.innerHTML = `
+                <h3>${car.name}</h3>
+                <img src="${car.image}" alt="${car.name}">
+                <p>Cost: ${car.cost}</p>
+                <p>Length: ${car.length}</p>
+            `;
+            carList.appendChild(carItem);
+        });
+    }
+
+    function compareCars() {
+        const result = document.getElementById('comparisonResult');
+        const cheapestCar = cars.reduce((prev, curr) => {
+            return parseInt(curr.cost.replace(/[^0-9]/g, '')) < parseInt(prev.cost.replace(/[^0-9]/g, '')) ? curr : prev;
+        });
+
+        const longestCar = cars.reduce((prev, curr) => {
+            return parseFloat(curr.length.replace(/[^0-9.]/g, '')) > parseFloat(prev.length.replace(/[^0-9.]/g, '')) ? curr : prev;
+        });
+
+        result.innerHTML = `
+            <h2>Comparison Result</h2>
+            <p><strong>Cheapest Car:</strong> ${cheapestCar.name} (${cheapestCar.cost})</p>
+            <p><strong>Longest Car:</strong> ${longestCar.name} (${longestCar.length})</p>
+        `;
+        result.style.display = 'block';
+    }
+
+    window.onload = displayCars;
+</script>
+
 </body>
 </html>

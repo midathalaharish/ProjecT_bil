@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    text-align: center;
+}
+
+#carList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.car-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 250px;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.car-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.car-card p {
+    margin: 5px 0;
+}
